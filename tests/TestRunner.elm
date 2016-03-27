@@ -1,9 +1,9 @@
 module TestRunner (..) where
 
-import String.Addons exposing (upperFirst, upperWords)
+import String.Addons exposing (upperFirst, upperWords, replace)
 import String exposing (uncons, fromChar, toUpper)
-import Check exposing (Claim, Evidence, suite, claim, that, is, for, true, quickCheck)
-import Check.Producer exposing (string, list, filter)
+import Check exposing (Claim, Evidence, suite, claim, that, is, for, true, false, quickCheck)
+import Check.Producer exposing (string, list, tuple, filter)
 import Check.Test
 import ElmTest
 import Debug
@@ -43,11 +43,34 @@ upperWordsClaims =
     ]
 
 
+replaceClaims : Claim
+replaceClaims =
+  suite
+    "replace"
+    [ claim
+        "It substitues all occurences of the same sequence"
+        `that` (\( string, substitute ) -> replace string substitute string)
+        `is` (\( string, substitute ) -> substitute)
+        `for` tuple ( string, string )
+    , claim
+        "It substitutes multiple occurances"
+        `false` (\string -> replace "a" "b" string |> String.contains "a")
+        `for` filter (\arg -> String.contains "a" arg) string
+    , claim
+        "It substitutes multiple occurances"
+        `true` (\string -> replace "\\" "bbbbb" string |> String.contains "bbbb")
+        `for` filter (\arg -> String.contains "\\" arg) string
+    ]
+
+
 evidence : Evidence
 evidence =
   suite
     "String.Addons"
-    [ upperFirstClaims, upperWordsClaims ]
+    [ upperFirstClaims
+    , upperWordsClaims
+    , replaceClaims
+    ]
     |> quickCheck
 
 
