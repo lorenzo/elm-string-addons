@@ -2,7 +2,13 @@ module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice) where
 
 {-| Additional functions for working with Strings
 
-@docs toUpperFirst, toUpperWords, replace
+## Modifying
+
+@docs toUpperFirst, toUpperWords
+
+## Replacing
+
+@docs replace, replaceSlice
 -}
 
 import String exposing (uncons, cons, words, join)
@@ -57,9 +63,12 @@ replace search substitution string =
     |> Regex.replace All (regex (escape search)) (\_ -> substitution)
 
 
-{-| Replace text within a portion of a string
+{-| Replace text within a portion of a string given a substitution
+string, a start index and an end index.
 
     replaceSlice "Sue" 4 6 "Hi, Bob" == "Hi, Sue"
+    replaceSlice "elephants" 0  6 "snakes on a plane!" == "elephats on a plane!"
+    replaceSliceslice "under" 7  9 "snakes on a plane!" == "snakes under a plane!"
 
 -}
 replaceSlice : String -> Int -> Int -> String -> String
