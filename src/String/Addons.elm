@@ -1,4 +1,4 @@
-module String.Addons (toUpperFirst, toUpperWords, replace) where
+module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice) where
 
 {-| Additional functions for working with Strings
 
@@ -43,7 +43,7 @@ toUpperWords ws =
 uppercaseMatch : String -> String
 uppercaseMatch match =
   match
-    |> Regex.replace All (regex "\\w+") (\{ match } -> toUpperFirst match)
+    |> Regex.replace All (regex "\\w+") (.match >> toUpperFirst)
 
 
 {-| Replace all occurrences of the search string with the substitution string.
@@ -55,3 +55,13 @@ replace : String -> String -> String -> String
 replace search substitution string =
   string
     |> Regex.replace All (regex (escape search)) (\_ -> substitution)
+
+
+{-| Replace text within a portion of a string
+
+    replaceSlice "Sue" 4 6 "Hi, Bob" == "Hi, Sue"
+
+-}
+replaceSlice : String -> Int -> Int -> String -> String
+replaceSlice substitution start end string =
+  (String.slice 0 start string) ++ substitution ++ (String.slice end (String.length string) string)
