@@ -119,6 +119,26 @@ replaceSliceProducer =
     )
 
 
+breakClaims : Claim
+breakClaims =
+  suite
+    "breakClaims"
+    [ claim
+        "The list should have as many elements as the ceil division of the length"
+        `that` (\( string, width ) -> break width string |> List.length)
+        `is` (\( string, width ) ->
+                let
+                  b =
+                    toFloat (String.length string)
+                  r =
+                    ceiling (b / (toFloat width))
+                in
+                  clamp 1 10 r
+             )
+        `for` tuple ( string, (rangeInt 1 10) )
+    ]
+
+
 evidence : Evidence
 evidence =
   suite
@@ -127,6 +147,7 @@ evidence =
     , toUpperWordsClaims
     , replaceClaims
     , replaceSliceClaims
+    , breakClaims
     ]
     |> quickCheck
 

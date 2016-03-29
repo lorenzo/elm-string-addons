@@ -1,4 +1,4 @@
-module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice) where
+module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice, break) where
 
 {-| Additional functions for working with Strings
 
@@ -9,6 +9,10 @@ module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice) where
 ## Replacing
 
 @docs replace, replaceSlice
+
+## Splitting
+
+@docs break
 -}
 
 import String exposing (uncons, cons, words, join)
@@ -74,3 +78,25 @@ string, a start index and an end index.
 replaceSlice : String -> Int -> Int -> String -> String
 replaceSlice substitution start end string =
   (String.slice 0 start string) ++ substitution ++ (String.slice end (String.length string) string)
+
+
+{-| Breaks a string into a list of strings of maximum the provided size.
+
+    break 10 "The quick brown fox" == ["The quick ", "brown fox"]
+    break 2 "" == [""]
+
+-}
+break : Int -> String -> List String
+break width string =
+  if width == 0 || string == "" then
+    [string]
+  else
+    breaker width string
+
+breaker : Int -> String -> List String
+breaker width string =
+  case string of
+    "" ->
+      []
+    _ ->
+      (String.slice 0 width string) :: (breaker width (String.dropLeft width string))
