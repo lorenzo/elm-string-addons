@@ -130,11 +130,17 @@ breakClaims =
                 let
                   b =
                     toFloat (String.length string)
+
                   r =
                     ceiling (b / (toFloat width))
                 in
                   clamp 1 10 r
              )
+        `for` tuple ( string, (rangeInt 1 10) )
+    , claim
+        "Concatenating the result yields the original string"
+        `that` (\( string, width ) -> break width string |> String.concat)
+        `is` (\( string, _ ) -> string)
         `for` tuple ( string, (rangeInt 1 10) )
     ]
 
