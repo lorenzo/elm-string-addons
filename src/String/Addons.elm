@@ -89,14 +89,19 @@ replaceSlice substitution start end string =
 break : Int -> String -> List String
 break width string =
   if width == 0 || string == "" then
-    [string]
+    [ string ]
   else
-    breaker width string
+    breaker width string []
 
-breaker : Int -> String -> List String
-breaker width string =
+
+breaker : Int -> String -> List String -> List String
+breaker width string acc =
   case string of
     "" ->
-      []
+      List.reverse acc
+
     _ ->
-      (String.slice 0 width string) :: (breaker width (String.dropLeft width string))
+        breaker
+          width
+          (String.dropLeft width string)
+          ((String.slice 0 width string) :: acc)
