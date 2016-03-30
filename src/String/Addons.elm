@@ -1,4 +1,4 @@
-module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice, break) where
+module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice, break, softBreak) where
 
 {-| Additional functions for working with Strings
 
@@ -12,7 +12,7 @@ module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice, break) 
 
 ## Splitting
 
-@docs break
+@docs break, softBreak
 -}
 
 import String exposing (uncons, cons, words, join)
@@ -101,7 +101,23 @@ breaker width string acc =
       List.reverse acc
 
     _ ->
-        breaker
-          width
-          (String.dropLeft width string)
-          ((String.slice 0 width string) :: acc)
+      breaker
+        width
+        (String.dropLeft width string)
+        ((String.slice 0 width string) :: acc)
+
+
+{-| Breaks a string into a list of strings of maximum the provided size,
+without cutting words at the edge.
+
+    softBreak 6 "The quick brown fox" == ["The quick", " brown", " fox"]
+
+-}
+softBreak : Int -> String -> List String
+softBreak width string =
+  if width <= 0 then
+    []
+  else
+    string
+      |> Regex.find All (regex <| ".{1," ++ (toString width) ++ "}(\\s|$)|\\S+?(\\s|$)")
+      |> List.map (.match)

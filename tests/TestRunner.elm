@@ -142,6 +142,50 @@ breakClaims =
         `that` (\( string, width ) -> break width string |> String.concat)
         `is` (\( string, _ ) -> string)
         `for` tuple ( string, (rangeInt 1 10) )
+    , claim
+        "No element in the list should have more than `width` chars"
+        `true` (\( string, width ) ->
+                  break width string
+                    |> List.map (String.length)
+                    |> List.filter ((<) width)
+                    |> List.isEmpty
+               )
+        `for` tuple ( string, (rangeInt 1 10) )
+    ]
+
+
+softBreakClaims : Claim
+softBreakClaims =
+  suite
+    "softBreak"
+    [ claim
+        "Concatenating the result yields the original string"
+        `that` (\( string, width ) -> softBreak width string |> String.concat)
+        `is` (\( string, _ ) -> string)
+        `for` tuple ( string, (rangeInt 1 10) )
+    , claim
+        "The list should not have more elements than words"
+        `true` (\( string, width ) ->
+                  let
+                    broken =
+                      softBreak width string |> List.length
+
+                    words =
+                      String.words string |> List.length
+                  in
+                    broken <= words
+               )
+        `for` tuple ( string, (rangeInt 1 10) )
+    , claim
+        "Elements in the list with trailing spaces should be of maximum width"
+        `true` (\( string, width ) ->
+                  softBreak width string
+                    |> List.filter (\(a) -> (String.trim a) /= a)
+                    |> List.map (String.length)
+                    |> List.filter ((<) width)
+                    |> List.isEmpty
+               )
+        `for` tuple ( string, (rangeInt 2 10) )
     ]
 
 
@@ -154,6 +198,7 @@ evidence =
     , replaceClaims
     , replaceSliceClaims
     , breakClaims
+    , softBreakClaims
     ]
     |> quickCheck
 
