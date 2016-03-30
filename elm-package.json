@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Additional string manipulation functions",
-    "repository": "https://github.com/lorenzo/elm-string-addons",
+    "repository": "https://github.com/lorenzo/elm-string-addons.git",
     "license": "BSD3",
     "source-directories": [
         "src"
