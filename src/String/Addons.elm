@@ -71,7 +71,7 @@ replace search substitution string =
 string, a start index and an end index.
 
     replaceSlice "Sue" 4 6 "Hi, Bob" == "Hi, Sue"
-    replaceSlice "elephants" 0  6 "snakes on a plane!" == "elephats on a plane!"
+    replaceSlice "elephants" 0  6 "snakes on a plane!" == "elephants on a plane!"
     replaceSliceslice "under" 7  9 "snakes on a plane!" == "snakes under a plane!"
 
 -}
