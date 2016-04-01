@@ -9,35 +9,35 @@ import ElmTest
 import Debug
 
 
-toUpperFirstClaims : Claim
-toUpperFirstClaims =
+toSentenceCaseClaims : Claim
+toSentenceCaseClaims =
   suite
-    "toUpperFirst"
+    "toSentenceCase"
     [ claim
         "It only converts to uppercase the first char in the string"
-        `that` (\string -> uncons (toUpperFirst string) |> Maybe.map fst |> Maybe.map fromChar |> Maybe.withDefault "")
+        `that` (\string -> uncons (toSentenceCase string) |> Maybe.map fst |> Maybe.map fromChar |> Maybe.withDefault "")
         `is` (\string -> uncons string |> Maybe.map fst |> Maybe.map fromChar |> Maybe.map toUpper |> Maybe.withDefault "")
         `for` string
     , claim
         "The tail of the stirng remains untouched"
-        `that` (\string -> uncons (toUpperFirst string) |> Maybe.map snd |> Maybe.withDefault "")
+        `that` (\string -> uncons (toSentenceCase string) |> Maybe.map snd |> Maybe.withDefault "")
         `is` (\string -> uncons string |> Maybe.map snd |> Maybe.withDefault "")
         `for` string
     ]
 
 
-toUpperWordsClaims : Claim
-toUpperWordsClaims =
+toTitleCaseClaims : Claim
+toTitleCaseClaims =
   suite
-    "toUpperWords"
+    "toTitleCase"
     [ claim
         "It converts the first letter of each word to uppercase"
-        `that` (\arg -> arg |> String.join " " |> toUpperWords |> String.words)
-        `is` (\arg -> arg |> String.join " " |> String.words |> List.map toUpperFirst)
+        `that` (\arg -> arg |> String.join " " |> toTitleCase |> String.words)
+        `is` (\arg -> arg |> String.join " " |> String.words |> List.map toSentenceCase)
         `for` list string
     , claim
         "It does not change the length of the string"
-        `that` (\arg -> arg |> String.join " " |> toUpperWords |> String.length)
+        `that` (\arg -> arg |> String.join " " |> toTitleCase |> String.length)
         `is` (\arg -> arg |> String.join " " |> String.length)
         `for` list string
     ]
@@ -193,8 +193,8 @@ evidence : Evidence
 evidence =
   suite
     "String.Addons"
-    [ toUpperFirstClaims
-    , toUpperWordsClaims
+    [ toSentenceCaseClaims
+    , toTitleCaseClaims
     , replaceClaims
     , replaceSliceClaims
     , breakClaims

@@ -1,10 +1,10 @@
-module String.Addons (toUpperFirst, toUpperWords, replace, replaceSlice, break, softBreak) where
+module String.Addons (toSentenceCase, toTitleCase, replace, replaceSlice, break, softBreak) where
 
 {-| Additional functions for working with Strings
 
 ## Modifying
 
-@docs toUpperFirst, toUpperWords
+@docs toSentenceCase, toTitleCase
 
 ## Replacing
 
@@ -24,12 +24,12 @@ import List
 
 {-| Make a string's first character uppercase
 
-    toUpperFirst "this is a phrase" == "This is a phare"
-    toUpperFirst "hello, world" == "Hello, world"
+    toSentenceCase "this is a phrase" == "This is a phare"
+    toSentenceCase "hello, world" == "Hello, world"
 
 -}
-toUpperFirst : String -> String
-toUpperFirst word =
+toSentenceCase : String -> String
+toSentenceCase word =
   uncons word
     |> Maybe.map (\( head, tail ) -> cons (toUpper head) tail)
     |> Maybe.withDefault ""
@@ -37,12 +37,12 @@ toUpperFirst word =
 
 {-| Uppercase the first character of each word in a string
 
-    toUpperWords "this is a phrase" == "This Is A Phrase"
-    toUpperWords "hello, world" == "Hello, World"
+    toTitleCase "this is a phrase" == "This Is A Phrase"
+    toTitleCase "hello, world" == "Hello, World"
 
 -}
-toUpperWords : String -> String
-toUpperWords ws =
+toTitleCase : String -> String
+toTitleCase ws =
   ws
     |> Regex.replace
         All
@@ -53,7 +53,7 @@ toUpperWords ws =
 uppercaseMatch : String -> String
 uppercaseMatch match =
   match
-    |> Regex.replace All (regex "\\w+") (.match >> toUpperFirst)
+    |> Regex.replace All (regex "\\w+") (.match >> toSentenceCase)
 
 
 {-| Replace all occurrences of the search string with the substitution string.
