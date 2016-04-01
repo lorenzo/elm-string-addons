@@ -1,7 +1,7 @@
 ## Additional String functions for Elm
 
-* toUpperFirst
-* toUpperWords
+* toSentenceCase
+* toTitleCase
 * replace
 * replaceSlice
 * break
