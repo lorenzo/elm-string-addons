@@ -1,9 +1,14 @@
-language: haskell
+language: node_js
 install:
   - npm install -g elm
   - elm-package install -y
 
+cache:
+  directories:
+    - tests/elm-stuff/build-artifacts
+
 before_script:
+    - cd tests
     - elm-make --yes --output raw-test.js tests/Main.elm
     - bash elm-stuff/packages/laszlopandy/elm-console/1.1.1/elm-io.sh raw-test.js test.js
 
