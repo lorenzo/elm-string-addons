@@ -1,4 +1,4 @@
-module TestRunner (..) where
+module AddonsTest (..) where
 
 import String.Addons exposing (..)
 import String exposing (uncons, fromChar, toUpper)
