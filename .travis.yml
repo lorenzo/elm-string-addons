@@ -9,7 +9,7 @@ cache:
 
 before_script:
     - cd tests
-    - elm-make --yes --output raw-test.js tests/Main.elm
+    - elm-make --yes --output raw-test.js Main.elm
     - bash elm-stuff/packages/laszlopandy/elm-console/1.1.1/elm-io.sh raw-test.js test.js
 
 script: node test.js
