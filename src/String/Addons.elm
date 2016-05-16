@@ -1,4 +1,4 @@
-module String.Addons (toSentenceCase, toTitleCase, replace, replaceSlice, break, softBreak) where
+module String.Addons exposing (toSentenceCase, toTitleCase, replace, replaceSlice, break, softBreak)
 
 {-| Additional functions for working with Strings
 

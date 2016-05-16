@@ -1,4 +1,4 @@
-module AddonsTest (..) where
+module AddonsTest exposing (..)
 
 import String.Addons exposing (..)
 import String exposing (uncons, fromChar, toUpper)
@@ -6,7 +6,6 @@ import Check exposing (Claim, Evidence, suite, claim, that, is, for, true, false
 import Check.Producer exposing (string, list, tuple, filter, rangeInt, tuple4)
 import Check.Test
 import ElmTest
-import Debug
 
 
 toSentenceCaseClaims : Claim
@@ -180,7 +179,7 @@ softBreakClaims =
         "Elements in the list with trailing spaces should be of maximum width"
         `true` (\( string, width ) ->
                   softBreak width string
-                    |> List.filter (\(a) -> (String.trim a) /= a)
+                    |> List.filter (\a -> (String.trim a) /= a)
                     |> List.map (String.length)
                     |> List.filter ((<) width)
                     |> List.isEmpty
@@ -204,4 +203,4 @@ evidence =
 
 
 main =
-  ElmTest.elementRunner (Check.Test.evidenceToTest evidence)
+  ElmTest.runSuite (Check.Test.evidenceToTest evidence)

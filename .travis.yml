@@ -8,11 +8,10 @@ install:
 
 cache:
   directories:
-    - tests/elm-stuff/build-artifacts
+    - ./tests/elm-stuff/build-artifacts
 
 before_script:
     - cd tests
-    - elm-make --yes --output raw-test.js Main.elm
-    - bash elm-stuff/packages/laszlopandy/elm-console/1.1.1/elm-io.sh raw-test.js test.js
+    - elm-make AddonsTest.elm --yes --output test.js
 
 script: node test.js
